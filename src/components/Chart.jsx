@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BarChart, LineChart, PieChart } from 'recharts';
+import { BarChart, LineChart, PieChart, Bar, Line, Pie } from 'recharts';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
