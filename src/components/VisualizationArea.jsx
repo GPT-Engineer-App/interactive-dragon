@@ -26,17 +26,23 @@ export const VisualizationArea = () => {
     drop: (item, monitor) => {
       const offset = monitor.getClientOffset();
       const containerRect = document.getElementById('visualization-area').getBoundingClientRect();
-      const newChart = {
-        id: Date.now(),
-        type: item.type,
-        position: { 
-          x: offset.x - containerRect.left, 
-          y: offset.y - containerRect.top 
-        },
-      };
-      setCharts((prevCharts) => [...prevCharts, newChart]);
+      if (item.id) {
+        // If the item has an id, it's an existing chart being moved
+        moveChart(item.id, offset.x - containerRect.left, offset.y - containerRect.top);
+      } else {
+        // If the item doesn't have an id, it's a new chart being added
+        const newChart = {
+          id: Date.now(),
+          type: item.type,
+          position: { 
+            x: offset.x - containerRect.left, 
+            y: offset.y - containerRect.top 
+          },
+        };
+        setCharts((prevCharts) => [...prevCharts, newChart]);
+      }
     },
-  }));
+  }), [moveChart]);
 
   return (
     <div

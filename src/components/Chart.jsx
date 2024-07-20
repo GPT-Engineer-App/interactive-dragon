@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { BarChart, LineChart, PieChart, Bar, Line, Pie } from 'recharts';
 import { Button } from '@/components/ui/button';
 import {
@@ -25,6 +25,7 @@ export const Chart = ({ id, type, position, onMove, onResize }) => {
   const [chartData, setChartData] = useState(dummyData);
   const [chartTitle, setChartTitle] = useState(`${type} Chart`);
   const [size, setSize] = useState({ width: 300, height: 200 });
+  const ref = useRef(null);
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'CHART',
@@ -32,7 +33,13 @@ export const Chart = ({ id, type, position, onMove, onResize }) => {
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
-  }));
+  }), [id, type]);
+
+  useEffect(() => {
+    if (ref.current) {
+      drag(ref.current);
+    }
+  }, [drag]);
 
   const renderChart = () => {
     const ChartComponent = type === 'Bar' ? BarChart : type === 'Line' ? LineChart : PieChart;
@@ -52,7 +59,7 @@ export const Chart = ({ id, type, position, onMove, onResize }) => {
 
   return (
     <div
-      ref={drag}
+      ref={ref}
       style={{
         position: 'absolute',
         left: position.x,
