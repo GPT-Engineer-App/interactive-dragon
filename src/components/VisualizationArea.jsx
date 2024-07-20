@@ -48,7 +48,7 @@ export const VisualizationArea = () => {
     <div
       id="visualization-area"
       ref={drop}
-      className="border-2 border-dashed border-gray-300 rounded-lg h-[600px] relative overflow-hidden"
+      className="border-2 border-dashed border-gray-300 rounded-lg h-[600px] relative overflow-hidden p-4"
     >
       {charts.map((chart) => (
         <Chart 
